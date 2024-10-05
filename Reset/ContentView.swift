@@ -24,9 +24,13 @@ struct TimeSinceView: View {
     let timeComponents = timeElapsedComponents(from: startDate)
     VStack(alignment: .leading, spacing: 10) {
       ProgressBar(label: "Days", value: Double(timeComponents.days), maxValue: 365)
+        .tint(.four)
       ProgressBar(label: "Hours", value: Double(timeComponents.hours), maxValue: 24)
+        .tint(.three)
       ProgressBar(label: "Minutes", value: Double(timeComponents.minutes), maxValue: 60)
+        .tint(.two)
       ProgressBar(label: "Seconds", value: Double(timeComponents.seconds), maxValue: 60)
+        .tint(.one)
     }
     .padding()
     .onReceive(timer) { _ in
@@ -45,7 +49,6 @@ struct ProgressBar: View {
       Text("\(label): \(Int(value))")
       ProgressView(value: value, total: maxValue)
         .progressViewStyle(LinearProgressViewStyle())
-        .frame(height: 10)
     }
   }
 }
