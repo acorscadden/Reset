@@ -36,3 +36,33 @@ let reset3: Date = {
     dateComponents.minute = 30
     return Calendar.current.date(from: dateComponents)!
 }()
+
+let reset4: Date = {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 10
+    dateComponents.day = 6
+    dateComponents.hour = 9
+    dateComponents.minute = 30
+    return Calendar.current.date(from: dateComponents)!
+}()
+
+let reset5: Date = {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 10
+    dateComponents.day = 6
+    dateComponents.hour = 11
+    dateComponents.minute = 30
+    return Calendar.current.date(from: dateComponents)!
+}()
+
+let reset6: Date = {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 10
+    dateComponents.day = 6
+    dateComponents.hour = 14
+    dateComponents.minute = 15
+    return Calendar.current.date(from: dateComponents)!
+}()

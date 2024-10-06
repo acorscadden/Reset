@@ -8,50 +8,6 @@
 import SwiftUI
 import SwiftData
 
-struct TimeSinceView: View {
-  let startDate: Date
-  @State private var now = Date()
-  let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
-  private func timeElapsedComponents(from startDate: Date) -> (days: Int, hours: Int, minutes: Int, seconds: Int) {
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.day, .hour, .minute, .second], from: startDate, to: now)
-    return (days: components.day ?? 0, hours: components.hour ?? 0, minutes: components.minute ?? 0, seconds: components.second ?? 0)
-  }
-
-  var body: some View {
-    let timeComponents = timeElapsedComponents(from: startDate)
-    VStack(alignment: .leading, spacing: 10) {
-      ProgressBar(label: "Days", value: Double(timeComponents.days), maxValue: 365)
-        .tint(.four)
-      ProgressBar(label: "Hours", value: Double(timeComponents.hours), maxValue: 24)
-        .tint(.three)
-      ProgressBar(label: "Minutes", value: Double(timeComponents.minutes), maxValue: 60)
-        .tint(.two)
-      ProgressBar(label: "Seconds", value: Double(timeComponents.seconds), maxValue: 60)
-        .tint(.one)
-    }
-    .padding()
-    .onReceive(timer) { _ in
-      now = Date()  // Update the current time
-    }
-  }
-}
-
-struct ProgressBar: View {
-  var label: String
-  var value: Double
-  var maxValue: Double
-
-  var body: some View {
-    VStack(alignment: .leading) {
-      Text("\(label): \(Int(value))")
-      ProgressView(value: value, total: maxValue)
-        .progressViewStyle(LinearProgressViewStyle())
-    }
-  }
-}
-
 struct ContentView: View {
 
   @Environment(\.modelContext) private var context
@@ -60,7 +16,9 @@ struct ContentView: View {
   var body: some View {
     ScrollView {
       VStack {
-        TimeSinceView(startDate: resets.last!.date)
+        if let lastReset = resets.last {
+          TimeSinceView(startDate: lastReset.date)
+        }
         Button("Add Reset", action: addReset)
           .buttonStyle(.borderedProminent)
         ForEach(resets) { reset in
@@ -68,6 +26,7 @@ struct ContentView: View {
             Text(reset.date, style: .relative)
           }
         }
+        DateGapsHeatmapView(dates: resets.map { $0.date })
       }
     }
     .safeAreaInset(edge: .top) {
@@ -94,10 +53,16 @@ struct ContentView: View {
     let reset1 = Reset(date: StartDate)
     let reset2 = Reset(date: reset2)
     let reset3 = Reset(date: reset3)
+    let reset4 = Reset(date: reset4)
+    let reset5 = Reset(date: reset5)
+    let reset6 = Reset(date: reset6)
 
     context.insert(reset1)
     context.insert(reset2)
     context.insert(reset3)
+    context.insert(reset4)
+    context.insert(reset5)
+    context.insert(reset6)
 
     do {
       try context.save()
@@ -109,6 +74,6 @@ struct ContentView: View {
 }
 
 
-#Preview {
-  ContentView()
-}
+//#Preview {
+//  ContentView()
+//}
