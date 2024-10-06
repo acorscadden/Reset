@@ -16,3 +16,23 @@ let StartDate: Date = {
     dateComponents.minute = 0
     return Calendar.current.date(from: dateComponents)!
 }()
+
+let reset2: Date = {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 10
+    dateComponents.day = 5
+    dateComponents.hour = 22
+    dateComponents.minute = 0
+    return Calendar.current.date(from: dateComponents)!
+}()
+
+let reset3: Date = {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 10
+    dateComponents.day = 6
+    dateComponents.hour = 8
+    dateComponents.minute = 30
+    return Calendar.current.date(from: dateComponents)!
+}()

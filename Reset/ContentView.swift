@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-
-import SwiftUI
+import SwiftData
 
 struct TimeSinceView: View {
   let startDate: Date
@@ -54,8 +53,58 @@ struct ProgressBar: View {
 }
 
 struct ContentView: View {
+
+  @Environment(\.modelContext) private var context
+  @Query(sort: \Reset.date) var resets: [Reset]
+
   var body: some View {
-    TimeSinceView(startDate: StartDate)
+    ScrollView {
+      VStack {
+        TimeSinceView(startDate: resets.last!.date)
+        Button("Add Reset", action: addReset)
+          .buttonStyle(.borderedProminent)
+        ForEach(resets) { reset in
+          VStack(alignment: .leading) {
+            Text(reset.date, style: .relative)
+          }
+        }
+      }
+    }
+    .safeAreaInset(edge: .top) {
+      Text("Resets")
+        .padding()
+    }
+    .onAppear {
+//      preloadData()
+    }
+  }
+
+  func addReset() {
+    let newReset = Reset(date: Date())
+    context.insert(newReset)
+    do {
+      try context.save()
+      print("inserted one resets")
+    } catch let e {
+      print(e)
+    }
+  }
+
+  func preloadData() {
+    let reset1 = Reset(date: StartDate)
+    let reset2 = Reset(date: reset2)
+    let reset3 = Reset(date: reset3)
+
+    context.insert(reset1)
+    context.insert(reset2)
+    context.insert(reset3)
+
+    do {
+      try context.save()
+      print("inserted three resets")
+    } catch let e {
+      print(e)
+    }
   }
 }
 

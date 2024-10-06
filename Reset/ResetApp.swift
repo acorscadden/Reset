@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ResetApp: App {
+
   var body: some Scene {
     WindowGroup {
       ContentView()
+        .modelContainer(for: Reset.self)
     }
   }
 }
