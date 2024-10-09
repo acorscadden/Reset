@@ -71,6 +71,7 @@
 		3A73B4112CB337BC007787B8 /* Exceptions for "Reset" folder in "ResetWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Constants.swift,
 				Model/ResetModel.swift,
 				Theme.swift,
 				TimeSinceView.swift,
