@@ -12,26 +12,29 @@ struct ContentView: View {
 
   @Environment(\.modelContext) private var context
   @Query(sort: \Reset.date) var resets: [Reset]
+  @State var showResetList = false
 
   var body: some View {
-    ScrollView {
-      VStack {
-        if let lastReset = resets.last {
-          TimeSinceView(startDate: lastReset.date)
-        }
-        Button("Add Reset", action: addReset)
-          .buttonStyle(.borderedProminent)
-        ForEach(resets) { reset in
-          VStack(alignment: .leading) {
-            Text(reset.date, style: .relative)
+    NavigationStack {
+      ScrollView {
+        VStack {
+          if let lastReset = resets.last {
+            TimeSinceView(startDate: lastReset.date)
           }
+          Button("Add Reset", action: addReset)
+            .buttonStyle(.borderedProminent)
+          Button("Show Reset List", action: { showResetList = true })
+            .buttonStyle(.borderedProminent)
+//          DateGapsHeatmapView(dates: resets.map { $0.date })
         }
-        DateGapsHeatmapView(dates: resets.map { $0.date })
       }
-    }
-    .safeAreaInset(edge: .top) {
-      Text("Resets")
-        .padding()
+      .navigationDestination(isPresented: $showResetList) {
+        ResetList()
+      }
+      .safeAreaInset(edge: .top) {
+        Text("Resets")
+          .padding()
+      }
     }
     .onAppear {
 //      preloadData()

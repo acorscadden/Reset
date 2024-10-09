@@ -32,13 +32,7 @@ struct Provider: TimelineProvider {
       if let resets = try? await container.mainContext.fetch(descriptor) {
         if !resets.isEmpty {
           let lastReset = resets.last!
-          var entries = [SimpleEntry]()
-          for minute in 0 ..< 60 {
-            let entryDate = Calendar.current.date(byAdding: .minute, value: minute, to: .now)!
-            let entry = SimpleEntry(date: entryDate, displayDate: lastReset.date)
-            entries.append(entry)
-          }
-          let timeline = Timeline(entries: entries, policy: .atEnd)
+          let timeline = Timeline(entries: [SimpleEntry(date: .now, displayDate: lastReset.date)], policy: .atEnd)
           completion(timeline)
         } else {
           let timeline = Timeline(entries: [SimpleEntry(date: .now, displayDate: .now)], policy: .atEnd)
@@ -66,7 +60,7 @@ struct ResetWidgetEntryView : View {
   var entry: Provider.Entry
 
   var body: some View {
-    TimeSinceView(startDate: entry.displayDate)
+    Text(entry.displayDate, style: .relative)
   }
 }
 
@@ -86,6 +80,8 @@ struct ResetWidget: Widget {
 #Preview(as: .systemSmall) {
   ResetWidget()
 } timeline: {
-  SimpleEntry(date: .now, displayDate: .now)
-  SimpleEntry(date: .now, displayDate: .now)
+  SimpleEntry(
+    date: .now,
+    displayDate: Calendar.current.date(byAdding: .minute, value: -78, to: Date())!
+  )
 }
