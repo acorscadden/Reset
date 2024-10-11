@@ -13,6 +13,7 @@ struct ContentView: View {
   @Environment(\.modelContext) private var context
   @Query(sort: \Reset.date) var resets: [Reset]
   @State var showResetList = false
+  @State var showManualEntry = false
 
   var body: some View {
     NavigationStack {
@@ -21,16 +22,21 @@ struct ContentView: View {
           if let lastReset = resets.last {
             TimeSinceView(startDate: lastReset.date)
           }
-          Button("Add Reset", action: addReset)
+          HStack {
+            Button("Add Reset Now", action: addReset)
+              .buttonStyle(.borderedProminent)
+            Button("Add Manual Entry", action: { showManualEntry.toggle() })
+              .buttonStyle(.borderedProminent)
+          }
+
+          Button("Show Reset List >>", action: { showResetList = true })
             .buttonStyle(.borderedProminent)
-          Button("Show Reset List", action: { showResetList = true })
-            .buttonStyle(.borderedProminent)
-//          DateGapsHeatmapView(dates: resets.map { $0.date })
         }
       }
       .navigationDestination(isPresented: $showResetList) {
         ResetList()
       }
+      .sheet(isPresented: $showManualEntry, content: ManualEntryView.init)
       .safeAreaInset(edge: .top) {
         Text("Resets")
           .padding()
