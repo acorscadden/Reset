@@ -11,7 +11,7 @@ import SwiftData
 struct ResetList: View {
 
   @Environment(\.modelContext) private var context
-  @Query(sort: \Reset.date) var resets: [Reset]
+  @Query(sort: \Reset.date, order: .reverse) var resets: [Reset]
 
   var body: some View {
     List {

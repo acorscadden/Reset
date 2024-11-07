@@ -13,6 +13,7 @@ struct ContentView: View {
   @Environment(\.modelContext) private var context
   @Query(sort: \Reset.date) var resets: [Reset]
   @State var showResetList = false
+  @State var showResetChart = false
   @State var showManualEntry = false
 
   var body: some View {
@@ -31,10 +32,15 @@ struct ContentView: View {
 
           Button("Show Reset List >>", action: { showResetList = true })
             .buttonStyle(.borderedProminent)
+          Button("Show Reset Chart >>", action: { showResetChart = true })
+            .buttonStyle(.borderedProminent)
         }
       }
       .navigationDestination(isPresented: $showResetList) {
         ResetList()
+      }
+      .navigationDestination(isPresented: $showResetChart) {
+        ResetsChartView()
       }
       .sheet(isPresented: $showManualEntry, content: ManualEntryView.init)
       .safeAreaInset(edge: .top) {
