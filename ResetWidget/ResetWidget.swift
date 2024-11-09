@@ -46,9 +46,6 @@ struct Provider: TimelineProvider {
     }
   }
 
-  //    func relevances() async -> WidgetRelevances<Void> {
-  //        // Generate a list containing the contexts this widget is relevant in.
-  //    }
 }
 
 struct SimpleEntry: TimelineEntry {
